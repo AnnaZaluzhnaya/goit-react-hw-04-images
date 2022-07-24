@@ -20,7 +20,6 @@ export const App = () => {
   const perPage = 12;
 
   useEffect(() => {
-    const totalImages = images.length;
     if (query === '') {
       return;
     }
@@ -34,9 +33,9 @@ export const App = () => {
           throw new Error('There are no images for your request');
         }
 
-        if (data.total > totalImages + perPage) {
+        if (data.total > page*perPage + perPage) {
           setShowLoadMoreButton(true);
-        } else if (totalImages + perPage >= data.total) {
+        } else if (page*perPage + perPage >= data.total) {
           setShowLoadMoreButton(false);
           Notiflix.Notify.info(
             "We're sorry, but you've reached the end of search results."
