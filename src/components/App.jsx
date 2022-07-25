@@ -23,12 +23,11 @@ export const App = () => {
     if (query === '') {
       return;
     }
-
     setLoading(true);
 
-    const fetchApi = async () => {
-      try {
-        const data = await searchImages(query, page, perPage);
+    searchImages(query, page, perPage)
+      .then (data => {
+        
         if (!data.total) {
           throw new Error('There are no images for your request');
         }
@@ -44,16 +43,16 @@ export const App = () => {
         setImages(prevState => [...prevState, ...data.hits]);
         setTotalImages(data.totalHits);
         setLoading(false);
-      } catch (error) {
+    }).catch (error => {
         Notiflix.Notify.failure(
           'There are no images for your request.Please try again.'
         );
         setLoading(false);
         setShowLoadMoreButton(false);
-      }
-    };
-    fetchApi();
+      });
   }, [query, page]);
+
+  
 
   const handleFormSubmit = query => {
     setQuery(query);

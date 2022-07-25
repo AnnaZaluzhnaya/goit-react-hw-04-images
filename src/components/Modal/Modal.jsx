@@ -8,24 +8,25 @@ const modalRoot = document.getElementById('modal-root');
 
 const Modal = ({ largeImageUrl, closeModal }) => {
   useEffect(() => {
+    const handleKeyDown = event => {
+      if (event.code === 'Escape') {
+        closeModal();
+      }
+    };
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
-  });
+  },[closeModal]);
 
-  const handleKeyDown = event => {
-    if (event.code === 'Escape') {
-      closeModal();
-    }
-  };
 
-  const handleBackdropClick = event => {
+    const handleBackdropClick = event => {
     if (event.currentTarget === event.target) {
       closeModal();
     }
   };
+  
 
   return createPortal(
     <div className={style.overlay} onClick={handleBackdropClick}>
